@@ -6,12 +6,13 @@ const mongoose = require('mongoose');
 
 //router
 
-const userRoutes =  require('./routes/user');
+const authRoutes =  require('./routes/auth');
+const adminRoutes = require('./routes/admin/auth')
 
 
 // environment variable or you can say constants
 env.config();
-
+//mongodb+srv://<username>:<password>@cluster0.qhgav.mongodb.net/test
 mongoose.connect(
     `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@cluster0.qhgav.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`,
      {
@@ -24,7 +25,9 @@ mongoose.connect(
 
 });
 app.use(bodyParser.json());
-app.use('/api', userRoutes);
+app.use('/api', authRoutes);
+app.use('/api',adminRoutes);
+
 
 
 app.get('/',(req,res,next)=>{
